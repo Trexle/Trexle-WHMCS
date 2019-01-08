@@ -14,7 +14,7 @@ possible.
 
 ## Useful Resources
 * [WHMCS Developer Resources](https://developers.whmcs.com/)
-* [Module Installation](https://trexle.com/integrate/whmcs/stripe/) (Stripe is only an example!)
+* [Module Installation](https://trexle.com/integrate/stripe/whmcs/) (Stripe is only an example. Substitute "stripe" in the url with your payment gateway.)
 * [API Documentation](https://docs.trexle.com)
 
 [Trexle](https://trexle.com)
