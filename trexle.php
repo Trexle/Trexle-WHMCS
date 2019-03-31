@@ -11,7 +11,7 @@ function trexle_config()
 {
     $configarray = array(
         "FriendlyName" => array("Type" => "System", "Value" => "Trexle"),
-        "pinapikey" => array("FriendlyName" => "Trexle API Key", "Type" => "text", "Size" => "30",),
+        "trexleapikey" => array("FriendlyName" => "Trexle Secret API Key", "Type" => "text", "Size" => "30",),
         "instructions" => array("FriendlyName" => "Payment Instructions", "Type" => "textarea", "Rows" => "5", "Description" => "Do this then do that etc...",),
         "testmode" => array("FriendlyName" => "Test Mode", "Type" => "yesno", "Description" => "Tick this to test",),
     );
@@ -26,8 +26,8 @@ function trexle_storeremote($params)
     if ($params['testmode'] == 'on')
         $params['url'] = "https://sandbox.trexle.com/"; //api/v1/charges";
     else
-        $params['url'] = "https://core.trexle.com";
-    $params['full_url'] = $params['url'] . "1/customers";
+        $params['url'] = "https://core.trexle.com/";
+    $params['full_url'] = $params['url'] . "api/v1/customers";
     $request = trexle_buildCustomerRequest($params);
     $result = trexle_callGateway($request, $params);
 
@@ -102,7 +102,7 @@ function trexle_buildCaptureRequest($params)
     $request = 'amount=' . round(trim($params['amount']) * 100);
     $request .= '&email=' . $params['clientdetails']['email'];
     $request .= "&currency=" . trim($params['currency']);
-    $request .= '&description=' . $params['invoiceid'];
+    $request .= '&description=' . 'Invoice No.' . $params['invoiceid'];
     $request .= '&ip_address=' . $_SERVER['REMOTE_ADDR'];
     $request .= '&customer_token=' . $params['token'];
     return $request;
@@ -116,7 +116,7 @@ function trexle_callGateway($request, $params)
     curl_setopt($curl, CURLOPT_VERBOSE, 0);
     curl_setopt($curl, CURLOPT_POST, 1);
     curl_setopt($curl, CURLOPT_POSTFIELDS, $request);
-    curl_setopt($curl, CURLOPT_USERPWD, $params['pinapikey'] . ':');
+    curl_setopt($curl, CURLOPT_USERPWD, $params['trexleapikey'] . ':');
     //curl_setopt($curl, CURLOPT_SSL_VERIFYHOST,  2);
     //curl_setopt($curl, CURLOPT_REFERER, APP_BASE_URL);
     curl_setopt($curl, CURLOPT_SSL_VERIFYPEER, 0);
